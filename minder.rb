@@ -3,6 +3,8 @@
 require 'rubygems'  
 require 'yaml'
 require 'xmpp4r-simple'
+require 'open-uri'
+require 'timeout'
 
 TIMEOUT = 10 # max time to attempt to access each domain
 
@@ -45,8 +47,14 @@ def can_read_domain?(domain)
   end
 end
 
+# attempt to access each domain, send XMPP message if can't
 def main
   load_config
+  $domains.each do |domain|
+    unless can_read_domain? domain
+      message "#{domain} is down!"
+    end
+  end
 end
 
 
