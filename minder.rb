@@ -38,7 +38,10 @@ def can_read_domain?(domain)
     Timeout::timeout(TIMEOUT) do
       open(url, 'Cache-Control' => 'no-cache').read
     end
-  rescue Timeout::Error
+  rescue Timeout::Error # couldn't access domain within timeout period
+    puts 'down!'
+    false
+  rescue OpenURI::HTTPError # all other http exceptions
     puts 'down!'
     false
   else
