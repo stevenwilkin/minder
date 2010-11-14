@@ -3,12 +3,26 @@
 require 'rubygems'  
 require 'yaml'
 
-# load configuration
-CONFIG_YAML = File.expand_path(File.join(File.dirname(__FILE__), 'minder.yaml'))
-config = YAML::load(File.read(CONFIG_YAML))
+# globals
+$user = nil
+$pass = nil
+$recipient = nil
+$domains = []
 
-$user = config['xmpp_from']['user']
-$pass = config['xmpp_from']['pass']
-$recipient = config['xmpp_to']
+def load_config
+  # load the YAML
+  config_file = File.expand_path(File.join(File.dirname(__FILE__), 'minder.yaml'))
+  config = YAML::load(File.read(config_file))
+  # populate globals
+  $user = config['xmpp_from']['user']
+  $pass = config['xmpp_from']['pass']
+  $recipient = config['xmpp_to']
+  $domains = config['domains']
+end
 
-$domains = config['domains']
+def main
+  load_config
+end
+
+
+main if __FILE__ == $0
