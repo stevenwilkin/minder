@@ -2,6 +2,7 @@
 xmpp:
   user: username
   pass: password
+xmpp_to: username
 domains:
   - news.ycombinator.com
   - google.com
