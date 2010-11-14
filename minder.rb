@@ -2,6 +2,7 @@
 
 require 'rubygems'  
 require 'yaml'
+require 'xmpp4r-simple'
 
 # globals
 $user = nil
@@ -18,6 +19,12 @@ def load_config
   $pass = config['xmpp_from']['pass']
   $recipient = config['xmpp_to']
   $domains = config['domains']
+end
+
+def message(msg)
+  jabber = Jabber::Simple.new($user, $pass)
+  jabber.deliver($recipient, msg)
+  sleep 1
 end
 
 def main
