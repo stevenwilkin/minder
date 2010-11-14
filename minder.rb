@@ -4,6 +4,8 @@ require 'rubygems'
 require 'yaml'
 require 'xmpp4r-simple'
 
+TIMEOUT = 10 # max time to attempt to access each domain
+
 # globals
 $user = nil
 $pass = nil
@@ -25,6 +27,22 @@ def message(msg)
   jabber = Jabber::Simple.new($user, $pass)
   jabber.deliver($recipient, msg)
   sleep 1
+end
+
+def can_read_domain?(domain)
+  print "Checking #{domain}: "
+  url = "http://#{domain}/"
+  begin 
+    Timeout::timeout(TIMEOUT) do
+      open(url, 'Cache-Control' => 'no-cache').read
+    end
+  rescue Timeout::Error
+    puts 'down!'
+    false
+  else
+    puts 'ok'
+    true
+  end
 end
 
 def main
