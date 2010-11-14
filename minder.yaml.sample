@@ -1,0 +1,8 @@
+---
+xmpp:
+  user: username
+  pass: password
+domains:
+  - news.ycombinator.com
+  - google.com
+  - github.com
