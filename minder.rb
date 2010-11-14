@@ -8,14 +8,13 @@ require 'timeout'
 
 TIMEOUT = 10 # max time to attempt to access each domain
 
-# globals
-$user = nil
-$pass = nil
-$recipient = nil
-$domains = []
+$user = nil      #
+$pass = nil      # credentials for sending XMPP account
+$recipient = nil # recieving XMPP account
+$domains = []    # list of domains to check
 
+# load configuration settings from YAML
 def load_config
-  # load the YAML
   config_file = File.expand_path(File.join(File.dirname(__FILE__), 'minder.yaml'))
   config = YAML::load(File.read(config_file))
   # populate globals
@@ -25,12 +24,14 @@ def load_config
   $domains = config['domains']
 end
 
+# send an XMPP message to the recipient address
 def message(msg)
   jabber = Jabber::Simple.new($user, $pass)
   jabber.deliver($recipient, msg)
   sleep 1
 end
 
+# can the domain be read within the maximum time allowed?
 def can_read_domain?(domain)
   print "Checking #{domain}: "
   url = "http://#{domain}/"
