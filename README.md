@@ -56,3 +56,6 @@ use out of it.
 * Optionally run the script from a Cron job, the following will run every hour:
 
 		0 * * * * /path/to/minder.rb > /dev/null 2>&1
+
+
+2010 [Steven Wilkin](http://twitter.com/stevebiscuit)
